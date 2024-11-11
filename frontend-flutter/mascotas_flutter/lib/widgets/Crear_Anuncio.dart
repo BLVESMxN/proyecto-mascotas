@@ -91,6 +91,7 @@ class _CreateAnnouncementScreenState extends State<CreateAnnouncementScreen> {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8),
+                
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
