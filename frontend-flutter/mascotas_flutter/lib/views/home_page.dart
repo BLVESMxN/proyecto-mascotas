@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_bar.dart';
-import '../widgets/Crear_Anuncio.dart';
+import '../widgets/crear_anuncio.dart';
 import '../widgets/pet_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,17 +40,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         case 2: // Encontrados: muestra solo las mascotas con estado "Encontrado"
           filteredPetData = petData.where((pet) => pet['status'] == 'Encontrado').toList();
           break;
-        case 3: // Crear Anuncio: navega a la pantalla de creación de anuncios
-          _openCreateAnnouncement();
+        case 3: // Crear Anuncio: muestra el modal de creación de anuncios
+          _openCreateAnnouncementModal();
           break;
       }
     });
   }
 
-  void _openCreateAnnouncement() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CreateAnnouncementScreen()),
+  void _openCreateAnnouncementModal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: CreateAnnouncementScreen(), // Muestra directamente tu pantalla de creación de anuncios aquí
+          ),
+        );
+      },
     ).then((newAnnouncement) {
       if (newAnnouncement != null) {
         setState(() {
@@ -60,6 +70,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       }
     });
   }
+
 
   @override
   void dispose() {
@@ -73,7 +84,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return Scaffold(
       appBar: CustomAppBar(
         tabController: _tabController,
-        onCreateAnnouncement: _openCreateAnnouncement,
+        onCreateAnnouncement: _openCreateAnnouncementModal,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
